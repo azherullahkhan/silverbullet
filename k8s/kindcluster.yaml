@@ -1,0 +1,45 @@
+○ → cat ./osvc-helm/.gitlab-ci/files/kind-config.yaml
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+networking:
+  apiServerAddress: "0.0.0.0"
+
+nodes:
+  - role: control-plane
+    image: "kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9"
+  - role: worker
+    image: "kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9"
+
+
+ 2021-11-30 17:37:02 ⌚  azhekhan-mac in ~/OSVC_Code/osvc-cloud-ms
+○ → kind create cluster --config ./osvc-helm/.gitlab-ci/files/kind-config.yaml --name testk8s --wait 5m --kubeconfig  $HOME/.kube/config
+Creating cluster "aztesthelm" ...
+ ✓ Ensuring node image (kindest/node:v1.20.7) 🖼
+ ✓ Preparing nodes 📦 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing CNI 🔌
+ ✓ Installing StorageClass 💾
+ ✓ Joining worker nodes 🚜
+ ✓ Waiting ≤ 5m0s for control-plane = Ready ⏳
+ • Ready after 3s 💚
+Set kubectl context to "kind-aztesthelm"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-aztesthelm --kubeconfig /Users/azhekhan/.kube/config
+
+Have a question, bug, or feature request? Let us know! https://kind.sigs.k8s.io/#community 🙂
+
+
+○ → kubectl cluster-info --context kind-aztesthelm --kubeconfig /Users/azhekhan/.kube/config
+Kubernetes master is running at https://0.0.0.0:56549
+KubeDNS is running at https://0.0.0.0:56549/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+
+○ → kgns
+NAME                 STATUS   AGE
+default              Active   17m
+kube-node-lease      Active   17m
+kube-public          Active   17m
+kube-system          Active   17m
+local-path-storage   Active   17m
