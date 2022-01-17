@@ -1,4 +1,4 @@
-○ → cat ./osvc-helm/.gitlab-ci/files/kind-config.yaml
+○ → cat ./helm/.gitlab-ci/files/kind-config.yaml
 apiVersion: kind.x-k8s.io/v1alpha4
 kind: Cluster
 networking:
@@ -11,8 +11,7 @@ nodes:
     image: "kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9"
 
 
- 2021-11-30 17:37:02 ⌚  azhekhan-mac in ~/OSVC_Code/osvc-cloud-ms
-○ → kind create cluster --config ./osvc-helm/.gitlab-ci/files/kind-config.yaml --name testk8s --wait 5m --kubeconfig  $HOME/.kube/config
+○ → kind create cluster --config ./helm/.gitlab-ci/files/kind-config.yaml --name testk8s --wait 5m --kubeconfig  $HOME/.kube/config
 Creating cluster "aztesthelm" ...
  ✓ Ensuring node image (kindest/node:v1.20.7) 🖼
  ✓ Preparing nodes 📦 📦
