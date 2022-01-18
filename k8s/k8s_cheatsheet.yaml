@@ -1,0 +1,6 @@
+
+
+Kubernetes port forwarding:
+Forward a port from a Pod to localhost to access content
+
+○ → k port-forward traefik-kafka-controller-5549bc588f-2zwf6 32215:9000 -n traefik-kafka
