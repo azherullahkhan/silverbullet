@@ -2,8 +2,11 @@
                                        GIT Rough book
 ------------------------------------------------------------------------------------------
 
+Good Reference:
+- http://git-scm.com/book/en/v2
+- https://www.youtube.com/watch?v=ZDR433b0HJY
 ------------------------------------------------------------------------------------------
-    List of Helm Commands
+    List of GIT Commands
 ------------------------------------------------------------------------------------------
 
 1. Edit an incorrect commit message
