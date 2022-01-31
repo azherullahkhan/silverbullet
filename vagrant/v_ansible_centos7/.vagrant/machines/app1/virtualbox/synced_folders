@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/Users/azhekhan/vagrant_dev/v_ansible_centos7","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}

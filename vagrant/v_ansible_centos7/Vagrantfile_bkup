@@ -1,0 +1,52 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  config.vm.define "anct71" do |anct71|
+    ##anct71.vm.box = "tylim/CentOS-7-x86_64-Minimal-1810"
+    anct71.vm.box = "centos/7"
+    anct71.vm.hostname = "anct71"
+    ##anct71.vm.memory = 2048
+    ##anct71.vm.cpus = 1
+    ##anct71.disksize.size = '25GB'
+    anct71.vm.network "private_network", ip: "192.168.22.10"
+    anct71.vm.provider "virtualbox" do |vb1|
+        vb1.gui = false
+        vb1.memory = "2048"
+        vb1.cpus = 1
+    end
+  end
+  config.vm.define "anct72" do |anct72|
+    ##anct72.vm.box = "tylim/CentOS-7-x86_64-Minimal-1810"
+    anct72.vm.box = "centos/7"
+    anct72.vm.hostname = "anct72"
+    ##anct72.vm.memory = 2048
+    ##anct72.vm.cpus = 1
+    ##anct72.disksize.size = '25GB'
+    anct72.vm.network "private_network", ip: "192.168.22.20"
+    anct72.vm.network "forwarded_port", guest: 80, host: 8880
+    anct72.vm.provider "virtualbox" do |vb2|
+        vb2.gui = false
+        vb2.memory = "2048"
+        vb2.cpus = 1
+    end
+  end
+  config.vm.define "anct73" do |anct73|
+    ##anct73.vm.box = "tylim/CentOS-7-x86_64-Minimal-1810"
+    anct73.vm.box = "centos/7"
+    anct73.vm.hostname = "anct73"
+    ##anct73.vm.memory = 2048
+    ##anct73.vm.cpus = 1
+    ##anct73.disksize.size = '25GB'
+    anct73.vm.network "private_network", ip: "192.168.22.30"
+    anct73.vm.provider "virtualbox" do |vb3|
+        vb3.gui = false
+        vb3.memory = "2048"
+        vb3.cpus = 1
+    end
+  end
+end
