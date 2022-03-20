@@ -1,0 +1,196 @@
+List of tasks
+Git commands:
+1. How do you set up a script to run every time a repository receives new commits through push?
+Solution 1: We can use post-receive githooks
+Solution 2: We could also use Jenkins or GitLab CI to monitor the repository and trigger scripts/actions once a commit is landed
+
+2. How do you find a list of files that have changed in a particular commit?
+Solution: git diff-tree -r --name-only --no-commit-id <COMMIT_SHA>
+
+
+
+Monitoring using scripts:
+1. Monitor a log file, detect a pattern detection, send an email on detection
+
+Configured sendmail
+
+tail -f /tmp/testlog| while read line
+do case "$line" in
+        *"ERROR"*) echo "$line" | mail -s "Error in Server Down" azherullahkhan@gmail.com;
+        ;;
+   esac
+done
+
+
+2. Monitor process particular process on an instance, send an email on incase of state change like process got stopped, taking more CPU that threshold
+
+cat /tmp/check_app.sh
+#!/bin/sh
+APP=sendmail
+ACTIVE_APP=$(ps -uax | grep -v grep  | grep ${APP} | wc -l)
+if [ $ACTIVE_APP -eq 0 ]
+then
+echo "${APP} is NOT RUNNING" | mail -s "Error: ${APP} is Down" azherullahkhan@gmail.com
+fi
+
+Checking CPU usage of a particular process 
+ps -eo %cpu,cmd | grep -v grep  | grep nginx
+
+
+
+
+https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+
+https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/
+
+https://www.cloudsigma.com/how-to-deploy-a-node-js-express-js-app-with-docker-on-ubuntu-20-04/
+
+
+
+docker build . -t <your username>/node-web-app
+$ docker images
+docker run -p 49160:8080 -d <your username>/node-web-app
+$ docker ps
+
+$ docker exec -it <container id> /bin/bash
+$ curl -i localhost:49160
+
+
+
+ docker run -d --restart unless-stopped redis
+
+ docker run \
+  -e "NODE_ENV=production" \
+  -u "node" \
+  -m "300M" --memory-swap "1G" \
+  -w "/home/node/app" \
+  --name "my-nodejs-app" \
+  node [script]
+
+Docker:
+1. Create a sample docker container with a Node.js Express app and demonstrate the installation.
+Guidelines :
+● You should be able to find what system packages are needed by looking through the app
+● You should not need to change the app code in any way
+● The app should be running as a non-privileged user
+● The app should be automatically restarted if crashes or is killed
+● The app should maximize all of the available CPUs
+● Timezone should be in IST
+● Follow best practices when writing a dockerfile
+
+
+docker run -u node  -m "300M" --memory-swap "1G" -p 49161:8080 -d ak/node-web-app
+
+ curl http://localhost:49161/
+Welcome from Node JS running Docker on MacBookPro
+
+
+
+Setup:
+minikube
+kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
+○ → k scale deployments hello-minikube --replicas=2 hello-minikube -n default
+○ → k scale deployments hello-minikube --replicas=1 hello-minikube -n default
+kgpn default
+
+##Install netstat application
+root@hello-minikube-5655c9d946-lrpsc:/# apt-get install net-tools
+root@hello-minikube-5655c9d946-lrpsc:/# netstat -ntulp
+root@hello-minikube-5655c9d946-lrpsc:/# curl -v localhost:8080
+sudo apt-get install ufw
+
+
+vagrant up
+sudo yum install epel-release
+yum install nginx
+systemctl status nginx
+systemctl start nginx
+systemctl status nginx
+[root@app1 ~]# iptables --list
+
+netstat -ntulp
+## Block Port 80 using the below command
+   iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 80 -j DROP
+
+
+[root@app1 ~]# curl -v 127.0.0.1:80
+
+## remove iptable entry
+[root@app1 ~]# iptables -D INPUT -p tcp -s 0/0 -d 0/0 --dport 80 -j DROP
+
+
+[root@app1 ~]# curl -v 127.0.0.1:80
+
+[root@app1 ~]# iptables --flush
+
+iptables-save
+
+#!/bin/sh
+echo "Stopping IPv4 firewall and allowing everyone..."
+ipt="/sbin/iptables"
+## Failsafe - die if /sbin/iptables not found
+[ ! -x "$ipt" ] && { echo "$0: \"${ipt}\" command not found."; exit 1; }
+$ipt -P INPUT ACCEPT
+$ipt -P FORWARD ACCEPT
+$ipt -P OUTPUT ACCEPT
+$ipt -F
+$ipt -X
+$ipt -t nat -F
+$ipt -t nat -X
+$ipt -t mangle -F
+$ipt -t mangle -X
+$ipt iptables -t raw -F
+$ipt -t raw -X
+
+Security:
+1. Show how to block ports
+iptables -L 
+iptables -A INPUT -p tcp -s 0/0 -d 0/0 --dport 80 -j DROP
+
+
+2. Show how to setup port forwarding
+
+iptables -L -n -v
+iptables -t nat -A OUTPUT -o lo -p tcp --dport 80 -j REDIRECT --to-port 8088
+iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+iptables -I INPUT -p tcp --dport 8080 -j ACCEPT
+iptables -L -n -v
+
+
+
+Network:
+1. Show list of processes using the network.
+iptraf-ng
+
+2. Show the list of IPs a process is connected to
+netstat -n
+
+3. Show how to list open files and kill processes tied to a user
+lsof -u nginx
+
+
+Code:
+Write a short program that prints each number from 1 to 100 on a new line.
+For each multiple of 3, print "AVA" instead of the number.
+For each multiple of 5, print "AMO" instead of the number.
+For numbers which are multiples of
+
+
+!#/bin/bash
+i=1
+while [ $i -le 100 ]
+do
+  if [ `expr $i % 3` -eq 0 ]; then
+    #echo $i
+    echo "----"
+    echo "AVA"
+  elif [ `expr $i % 5` -eq 0 ]; then
+    #echo $i
+    echo "----"
+    echo "AMO"
+  else
+    echo "----"
+    echo "$i"
+  fi
+  i=$(($i+1))
+done

@@ -1,0 +1,68 @@
+------------------------------------------------------------------------------------------
+                                       Vault Commands Rough book
+------------------------------------------------------------------------------------------
+
+Step 1: Setup the controlplane kubeconfig
+
+export KUBECONFIG=~/.kube/corp.config
+kubectl config get-contexts
+kubectl config use-context corp_controlplane
+
+
+Step 2: Verify the logs.
+
+kubectl logs vault-0 -n vault -c vault --tail=20
+kubectl logs vault-0 -n vault -c vault --since=1h
+
+
+Step 3:  If everything looks fine then log on to vault for checking namespace specific configs
+
+kubectl get secret vault-unseal-tokens -n vault -o=jsonpath='{.data.vault-root}' | base64 -d | xargs echo "Vault login Key: $1"
+kubectl exec -n vault -it vault-0 -c vault sh
+vault status (This will show the current Active Node Address. If the active node is different , then exit and log on to the active node[vault-0/vault-1] )
+vault login s.Y3......... (use the Vault login Key obtained from the above step to login)
+
+
+Step 4: Verify the auth roles for a specific namespace
+
+vault auth list -detailed
+vault read auth/k8s-iad-dataplane/config
+vault list auth/k8s-iad-controlplane/role
+vault list auth/k8s-iad-dataplane/role
+ 
+vault read auth/k8s-iad-controlplane/role/generic
+vault read auth/k8s-iad-dataplane/role/generic
+
+
+Step 5: Verify the namespace specific policies
+
+vault policy list | grep xxx
+vault policy read xxxgeneric
+vault policy read generated_xxx_policy
+
+
+Step 6: Verify the namespace specific secrets
+
+vault secrets list |grep xxxx
+
+
+
+  112  vault list transit/keys
+  113  vault secrets list
+  102  exit
+  103  vault kv list kv/tenants/
+  104  vault kv list tenants/
+  105  vault kv list tenants  
+   94  vault policy read generic_application_policy
+   95  vault policy read sandbox1_default_policy
+   96  vault policy read sandbox1_kv_policy
+   97  vault policy read sandbox1_pdb_policy
+   86  vault list consul/roles
+   87  vault list consul/creds/example
+   88  vault read consul/creds/example
+   10  vault auth
+   11  vault auth list
+   12  vault plugin list
+   13  vault plugin -h
+   14  vault plugin info consul
+   15  vault plugin info -h

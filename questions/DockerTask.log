@@ -1,0 +1,108 @@
+
+
+ 2022-01-31 00:04:10 ⌚  azhekhan-mac in ~/OSVC_Code/osvc-cloud-ms/silverbullet/questions/nodejs
+± |main ?:4 ✗| → cat Dockerfile
+FROM node:16
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+USER node
+
+EXPOSE 8080
+CMD [ "node", "server.js" ]
+
+
+
+ 2022-01-31 00:03:56 ⌚  azhekhan-mac in ~/OSVC_Code/osvc-cloud-ms/silverbullet/questions/nodejs
+± |main ?:4 ✗| → cat package.json
+{
+  "name": "docker_web_app",
+  "version": "1.0.0",
+  "description": "Node.js on Docker",
+  "author": "Azher Khan",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1"
+  }
+}
+
+
+ 2022-01-31 00:04:00 ⌚  azhekhan-mac in ~/OSVC_Code/osvc-cloud-ms/silverbullet/questions/nodejs
+± |main ?:4 ✗| → cat server.js
+'use strict';
+
+const express = require('express');
+
+// Constants
+const PORT = 8080;
+const HOST = '0.0.0.0';
+
+// App
+const app = express();
+app.get('/', (req, res) => {
+  res.send('Welcome from Node JS running Docker on MacBookPro');
+});
+
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);
+
+
+
+ 2022-01-30 23:56:43 ⌚  azhekhan-mac in ~/OSVC_Code/osvc-cloud-ms/silverbullet/questions/nodejs
+± |main ?:4 ✗| → docker build . -t ak/node-web-app
+Sending build context to Docker daemon   5.12kB
+Step 1/8 : FROM node:16
+ ---> 304de6a23023
+Step 2/8 : WORKDIR /usr/src/app
+ ---> Using cache
+ ---> a60adda01c4a
+Step 3/8 : COPY package*.json ./
+ ---> Using cache
+ ---> ce3a123f2db6
+Step 4/8 : RUN npm install
+ ---> Using cache
+ ---> 1fd0a8bc5b7c
+Step 5/8 : COPY . .
+ ---> 56903e10c451
+Step 6/8 : USER node
+ ---> Running in 64b760f64553
+Removing intermediate container 64b760f64553
+ ---> 5e7f17188417
+Step 7/8 : EXPOSE 8080
+ ---> Running in fca00cc8b05f
+Removing intermediate container fca00cc8b05f
+ ---> cef5f494c50d
+Step 8/8 : CMD [ "node", "server.js" ]
+ ---> Running in 05592517f369
+Removing intermediate container 05592517f369
+ ---> 353fb4664bcc
+Successfully built 353fb4664bcc
+Successfully tagged ak/node-web-app:latest
+
+
+ 2022-01-31 00:00:22 ⌚  azhekhan-mac in ~/OSVC_Code/osvc-cloud-ms/silverbullet/questions/nodejs
+± |main ?:4 ✗| → docker run -u node  -m "300M" --memory-swap "1G" -p 49161:8080 -d ak/node-web-app
+39d6629a5d65c3b6f0d9824dd21faa81fd408489198464b719bd573b3c7e4163
+
+
+
+
+ 2022-01-31 00:00:52 ⌚  azhekhan-mac in ~/OSVC_Code/osvc-cloud-ms/silverbullet/questions/nodejs
+± |main ?:4 ✗| → curl http://localhost:49161/
+Welcome from Node JS running Docker on MacBookPro
+
+
+

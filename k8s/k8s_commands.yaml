@@ -1,0 +1,35 @@
+------------------------------------------------------------------------------------------
+                                       K8S Commands
+------------------------------------------------------------------------------------------
+
+
+
+kubectl apply --context=${KUBE_CONTEXT} --namespace=${NAMESPACE} -f ${FILE}
+
+Kubernetes get all pods in all namespaces and watch them
+○ → kgp -A -w
+
+
+Find Kubernetes API Version supported:
+for kind in `kubectl api-resources | tail +2 | awk '{ print $1 }'`; do kubectl explain $kind; done | grep -e "KIND:" -e "VERSION:"
+kubectl api-versions
+
+
+Kubernetes port forwarding:
+Forward a port from a Pod to localhost to access content
+
+○ → k port-forward  -n traefik-kafka traefik-kafka-controller-5549bc588f-2zwf6 32215:9000
+○ → k port-forward  -n NAMESPACE       POD_NAME                                32215:CONTAINERPORT
+
+
+
+kubectl logs POD_NAME -n NAMESPACE -c CONTAINER --tail=20
+kubectl logs POD_NAME -n NAMESPACE -c CONTAINER --since=1h
+
+
+
+kubectl get secret SECRET_NAME -n NAMESPACE -o=jsonpath='{.data.PATH}' | base64 -d | xargs echo "Secret Data PATH: $1"
+
+kubectl --context=${KUBE_CONTEXT} get ns ${NAMESPACE} -o json  | jq .status.phase -r
+
+

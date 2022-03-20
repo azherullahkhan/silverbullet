@@ -1,0 +1,253 @@
+------.------.------.------.------.------.------.------.------.------.------.------.------.------.
+              Send mail and Monitor logs
+
+------.------.------.------.------.------.------.------.------.------.------.------.------.------.
+
+
+
+
+https://tecadmin.net/sendmail-to-relay-emails-through-gmail-stmp/
+
+https://www.youtube.com/watch?v=kO4NzlAA9vQ
+
+https://forums.centos.org/viewtopic.php?t=57045
+service saslauthd restart and
+service sendmail restart
+
+
+https://linuxconfig.org/configuring-gmail-as-sendmail-email-relay
+
+------.------.------.------.------.------.------.------.------.------.------.------.------.------.
+
+Step 1: Install the below applications
+
+    1  yum install vi
+    3  yum install net-tools
+    5  yum install ufw
+   12  yum install nginx
+   13  sudo yum install epel-release
+   14  yum install nginx
+  199  yum install iptraf
+  221  yum install lsof
+  246  yum install sendmail sendmail-cf m4
+  267  yum install procmail mailx sendmail sendmail-cf -y
+  314  yum install sasl2-bin libsasl2-modules -y
+  330  yum install cyrus-sasl*
+  397  #yum install cyrus-sasl*
+
+
+
+Step 2:
+
+Next, make a new directory where we will store the Gmail configuration file, then change into it.
+# mkdir -m 700 /etc/mail/authinfo/
+# cd /etc/mail/authinfo/
+
+[root@app1 mail]# ll /etc/mail/authinfo/smtp-auth
+-rwx------. 1 root root 84 Jan 30 13:23 /etc/mail/authinfo/smtp-auth
+
+[root@app1 mail]# cat authinfo/smtp-auth
+AuthInfo: "U:root" "I:azherullahkhan@gmail.com" "P:XXX_PASSWORD"
+
+
+https://myaccount.google.com/lesssecureapps?pli=1&rapt=AEjHL4Nah7-WZa5xuKn3CVHS18LQE4NmqA5yJ0a7FwTfSznWzHw1DotCBtgeL3pt-zvebBAMYegf8FSGxEGuwYFlC7fghWL2-g
+
+
+
+[root@app1 mail]# diff sendmail.mc /tmp/sendmail.mc
+25a26,27
+> dnl define(`SMART_HOST', `smtp.your.provider')dnl
+> dnl #
+111,117d112
+< define(`SMART_HOST',`[smtp.gmail.com]')dnl
+< define(`RELAY_MAILER_ARGS', `TCP $h 587')dnl
+< define(`ESMTP_MAILER_ARGS', `TCP $h 587')dnl
+< define(`confAUTH_OPTIONS', `A p')dnl
+< TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+< define(`confAUTH_MECHANISMS', `EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+< FEATURE(`authinfo',`hash -o /etc/mail/authinfo/smtp-auth.db')dnl
+
+
+
+[root@app1 mail]# vi authinfo/smtp-auth
+[root@app1 mail]# makemap hash /etc/mail/authinfo/smtp-auth < /etc/mail/authinfo/smtp-auth
+
+
+  377  makemap hash /etc/mail/authinfo/smtp-auth < /etc/mail/authinfo/smtp-auth
+  378  systemctl status sendmail -l
+  379  make -C /etc/mail
+  380  systemctl restart sendmail
+  381  systemctl status sendmail -l
+  382  echo "Test Email 6" | mail -s "Subject Here 6" azherullahkhan@gmail.com
+  383  systemctl status sendmail -l
+  384  vi /var/spool/mail/root
+  385  vi authinfo/smtp-auth
+  386  makemap hash /etc/mail/authinfo/smtp-auth < /etc/mail/authinfo/smtp-auth
+
+
+
+
+
+
+LOGS:
+
+
+[root@app1 mail]# ll /etc/mail/authinfo/smtp-auth
+-rwx------. 1 root root 84 Jan 30 13:23 /etc/mail/authinfo/smtp-auth
+
+
+[root@app1 mail]# systemctl status sendmail -l
+● sendmail.service - Sendmail Mail Transport Agent
+   Loaded: loaded (/usr/lib/systemd/system/sendmail.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sun 2022-01-30 13:17:56 UTC; 6min ago
+  Process: 18252 ExecStart=/usr/sbin/sendmail -bd $SENDMAIL_OPTS $SENDMAIL_OPTARG (code=exited, status=0/SUCCESS)
+  Process: 18246 ExecStartPre=/etc/mail/make aliases (code=exited, status=0/SUCCESS)
+  Process: 18245 ExecStartPre=/etc/mail/make (code=exited, status=0/SUCCESS)
+ Main PID: 18254 (sendmail)
+   CGroup: /system.slice/sendmail.service
+           └─18254 sendmail: accepting connection
+
+Jan 30 13:17:56 app1.dev systemd[1]: Started Sendmail Mail Transport Agent.
+Jan 30 13:18:35 app1.dev sendmail[18271]: 20UDIRvd018271: from=<vagrant@app1.dev>, size=468, class=0, nrcpts=1, msgid=<202201301318.20UDIRqx018270@app1.dev>, proto=ESMTP, daemon=MTA, relay=app1.dev [127.0.0.1]
+Jan 30 13:18:36 app1.dev sendmail[18273]: STARTTLS=client, relay=smtp.gmail.com., version=TLSv1/SSLv3, verify=FAIL, cipher=ECDHE-ECDSA-AES128-GCM-SHA256, bits=128/128
+Jan 30 13:18:36 app1.dev sendmail[18273]: ldapdb_canonuser_plug_init() failed in sasl_canonuser_add_plugin(): invalid parameter supplied
+Jan 30 13:18:36 app1.dev sendmail[18273]: _sasl_plugin_load failed on sasl_canonuser_init for plugin: ldapdb
+Jan 30 13:18:38 app1.dev sendmail[18273]: 20UDIRvd018271: to=<azherullahkhan@gmail.com>, delay=00:00:03, xdelay=00:00:03, mailer=relay, pri=120468, relay=smtp.gmail.com. [74.125.24.108], dsn=5.0.0, stat=Service unavailable
+Jan 30 13:18:38 app1.dev sendmail[18273]: 20UDIRvd018271: 20UDIcvd018273: DSN: Service unavailable
+Jan 30 13:18:38 app1.dev sendmail[18273]: 20UDIcvd018273: to=<vagrant@app1.dev>, delay=00:00:00, xdelay=00:00:00, mailer=relay, pri=31666, relay=smtp.gmail.com., dsn=5.0.0, stat=Service unavailable
+Jan 30 13:18:38 app1.dev sendmail[18273]: 20UDIcvd018273: 20UDIcve018273: return to sender: Service unavailable
+Jan 30 13:18:38 app1.dev sendmail[18273]: 20UDIcve018273: to=root, delay=00:00:00, xdelay=00:00:00, mailer=local, pri=32690, dsn=2.0.0, stat=Sent
+[root@app1 mail]# systemctl restart sendmail
+[root@app1 mail]#
+[root@app1 mail]# systemctl status sendmail -l
+● sendmail.service - Sendmail Mail Transport Agent
+   Loaded: loaded (/usr/lib/systemd/system/sendmail.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sun 2022-01-30 13:24:30 UTC; 2s ago
+  Process: 18298 ExecStart=/usr/sbin/sendmail -bd $SENDMAIL_OPTS $SENDMAIL_OPTARG (code=exited, status=0/SUCCESS)
+  Process: 18293 ExecStartPre=/etc/mail/make aliases (code=exited, status=0/SUCCESS)
+  Process: 18292 ExecStartPre=/etc/mail/make (code=exited, status=0/SUCCESS)
+ Main PID: 18300 (sendmail)
+   CGroup: /system.slice/sendmail.service
+           └─18300 sendmail: accepting connection
+
+Jan 30 13:24:30 app1.dev systemd[1]: Stopped Sendmail Mail Transport Agent.
+Jan 30 13:24:30 app1.dev systemd[1]: Starting Sendmail Mail Transport Agent...
+Jan 30 13:24:30 app1.dev systemd[1]: Can't open PID file /run/sendmail.pid (yet?) after start: No such file or directory
+Jan 30 13:24:30 app1.dev sendmail[18300]: starting daemon (8.14.7): SMTP+queueing@01:00:00
+Jan 30 13:24:30 app1.dev systemd[1]: Started Sendmail Mail Transport Agent.
+[root@app1 mail]# echo "Test Email 6" | mail -s "Subject Here 6" azherullahkhan@gmail.com
+[root@app1 mail]#
+
+
+[root@app1 mail]# systemctl status sendmail -l
+● sendmail.service - Sendmail Mail Transport Agent
+   Loaded: loaded (/usr/lib/systemd/system/sendmail.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sun 2022-01-30 13:24:30 UTC; 2min 13s ago
+  Process: 18298 ExecStart=/usr/sbin/sendmail -bd $SENDMAIL_OPTS $SENDMAIL_OPTARG (code=exited, status=0/SUCCESS)
+  Process: 18293 ExecStartPre=/etc/mail/make aliases (code=exited, status=0/SUCCESS)
+  Process: 18292 ExecStartPre=/etc/mail/make (code=exited, status=0/SUCCESS)
+ Main PID: 18300 (sendmail)
+   CGroup: /system.slice/sendmail.service
+           └─18300 sendmail: accepting connection
+
+Jan 30 13:24:30 app1.dev systemd[1]: Stopped Sendmail Mail Transport Agent.
+Jan 30 13:24:30 app1.dev systemd[1]: Starting Sendmail Mail Transport Agent...
+Jan 30 13:24:30 app1.dev systemd[1]: Can't open PID file /run/sendmail.pid (yet?) after start: No such file or directory
+Jan 30 13:24:30 app1.dev sendmail[18300]: starting daemon (8.14.7): SMTP+queueing@01:00:00
+Jan 30 13:24:30 app1.dev systemd[1]: Started Sendmail Mail Transport Agent.
+Jan 30 13:25:04 app1.dev sendmail[18317]: 20UDOsAE018317: from=<vagrant@app1.dev>, size=468, class=0, nrcpts=1, msgid=<202201301324.20UDOsKK018316@app1.dev>, proto=ESMTP, daemon=MTA, relay=app1.dev [127.0.0.1]
+Jan 30 13:25:06 app1.dev sendmail[18319]: STARTTLS=client, relay=smtp.gmail.com., version=TLSv1/SSLv3, verify=FAIL, cipher=ECDHE-ECDSA-AES128-GCM-SHA256, bits=128/128
+Jan 30 13:25:06 app1.dev sendmail[18319]: ldapdb_canonuser_plug_init() failed in sasl_canonuser_add_plugin(): invalid parameter supplied
+Jan 30 13:25:06 app1.dev sendmail[18319]: _sasl_plugin_load failed on sasl_canonuser_init for plugin: ldapdb
+Jan 30 13:25:08 app1.dev sendmail[18319]: 20UDOsAE018317: to=<azherullahkhan@gmail.com>, delay=00:00:04, xdelay=00:00:04, mailer=relay, pri=120468, relay=smtp.gmail.com. [142.251.10.108], dsn=2.0.0, stat=Sent (OK  1643549108 k16sm16351302pfu.140 - gsmtp)
+
+
+
+[root@app1 mail]# pwd
+/etc/mail
+
+[root@app1 mail]# ls -ltr
+total 264
+-rw-r--r--. 1 root root  1847 Nov 27  2019 virtusertable
+-rw-r--r--. 1 root root   127 Nov 27  2019 trusted-users
+-rw-r--r--. 1 root root    92 Nov 27  2019 Makefile
+-rwxr-xr-x. 1 root root  2700 Nov 27  2019 make
+-rw-r--r--. 1 root root   997 Nov 27  2019 mailertable
+-rw-r--r--. 1 root root    64 Nov 27  2019 local-host-names
+-rw-r--r--. 1 root root   233 Nov 27  2019 domaintable
+-rw-r--r--. 1 root root   469 Nov 27  2019 access
+-rw-r--r--. 1 root root  1041 Apr  1  2020 submit.mc
+-rw-r--r--. 1 root root  5584 Apr  1  2020 helpfile
+-rw-r--r--. 1 root root 41680 Apr  1  2020 submit.cf
+-rw-r-----. 1 root root 12288 Jan 30 11:03 virtusertable.db
+-rw-r-----. 1 root root 12288 Jan 30 11:03 access.db
+-rw-r-----. 1 root root 12288 Jan 30 11:03 domaintable.db
+-rw-r-----. 1 root root 12288 Jan 30 11:03 mailertable.db
+-rw-r--r--. 1 root root     0 Jan 30 11:03 aliasesdb-stamp
+-rw-r--r--. 1 root root     9 Jan 30 11:10 relay-domains
+-rw-r-----. 1 root root 12288 Jan 30 11:45 authinfo.db
+-rw-r--r--. 1 root root 59112 Jan 30 12:07 sendmail.cf.bak
+-rw-r--r--. 1 root root  7667 Jan 30 12:53 sendmail.mc
+-rw-r--r--. 1 root root 59112 Jan 30 12:53 sendmail.cf
+drwx------. 2 root root    43 Jan 30 13:23 authinfo
+
+------.------.------.------.------.------.------.------.------.------.------.------.------.------.
+
+          Monitoring using scripts:
+
+
+
+
+
+1. Monitor a log file, detect a pattern detection, send an email on detection
+
+
+tail -f /tmp/testlog| while read line
+do case "$line" in
+        *"ERROR"*) echo "$line" | mail -s "Error in Server Down" azherullahkhan@gmail.com;
+        ;;
+   esac
+done
+
+
+
+
+2. Monitor process particular process on an instance, send an email on incase of state change like process got stopped, taking more CPU that threshold
+
+
+
+2. Monitor process particular process on an instance, send an email on incase of state change like process got stopped, taking more CPU that threshold
+
+
+
+cat /tmp/check_app.sh
+#!/bin/sh
+APP=sendmail
+ACTIVE_APP=$(ps -uax | grep -v grep  | grep ${APP} | wc -l)
+if [ $ACTIVE_APP -eq 0 ]
+then
+echo "${APP} is NOT RUNNING" | mail -s "Error: ${APP} is Down" azherullahkhan@gmail.com
+fi
+
+Checking CPU usage of a particular process 
+ps -eo %cpu,cmd | grep -v grep  | grep nginx
+
+
+
+
+
+
+
+
+
+
+------.------.------.------.------.------.------.------.------.------.------.------.------.------.
+
+
+
+
+
+------.------.------.------.------.------.------.------.------.------.------.------.------.------.
+
+
+------.------.------.------.------.------.------.------.------.------.------.------.------.------.
