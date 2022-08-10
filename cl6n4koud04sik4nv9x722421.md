@@ -9,3 +9,5 @@ Helmfile
 Jenkins
 consul
 Vault
+ArgoCD
+GitLab CI
