@@ -1,6 +1,6 @@
 ## Docker Run errors with "No space left on device"
 
-When you try to run the "docker run" command you see the following error messages
+When you try to run the "docker run" command and if you see the following error messages
 >  "No space left on device"
 ```
 ---------------
@@ -11,11 +11,10 @@ Error: [Errno 28] No space left on device
 Aliasing vim --> vi editor
 cp: error writing ‘/home/dirmngr.conf’: No space left on device
 cp: failed to extend ‘/home/dirmngr.conf’: No space left on device
-cp: error writing ‘/home//gpg-agent.conf’: No space left on device
 ---------------
 ```
 
-The solution is to remove old docker containers 
+Run the following docker command to remove old docker containers, to free up some space
 ```
 ---------------
  2022-03-21 15:14:45 ⌚  azhekhan-mac in ~/OS
