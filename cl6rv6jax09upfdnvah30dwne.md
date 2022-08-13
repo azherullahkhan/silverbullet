@@ -1,9 +1,8 @@
 ## Quick Intro to Bash Scripting
 
-
 This article will help you being writing a bash script and make you aware of the scripting structure
 
-#### Bash Scripting Basics
+### Bash Scripting Basics
 
 The Shebang (below) goes on the first line of every Bash script
 ```
@@ -139,7 +138,7 @@ Exit the current iteration of the loop but `continue` to run the loop
 continue
 ```
 
-### Read User Input
+#### Read User Input
 Prompt the user for information to enter by using read command:
 ```
 #!/bin/bash
