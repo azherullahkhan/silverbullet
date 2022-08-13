@@ -225,7 +225,7 @@ Find all odd numbers from 0 to 9
 9
 ```
 
-##### inbuilt functions
+#### Inbuilt functions
 ```
 >>> help([])
 >>> min([1, 2, 3])
