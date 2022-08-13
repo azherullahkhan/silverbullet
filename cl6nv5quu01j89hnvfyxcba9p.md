@@ -1,9 +1,10 @@
 ## Quick Intro to Python Scripting
 
-Python?
+Introduction to Python
 * Interpreted language
 * Multiparadigm
-Introduction
+#### Arithmetic Operations:
+```
 azhercan@azhercan-MacBook:~/codes/python/hacknight$ python
 Python 2.7.3 (default, Aug  1 2012, 05:14:39)
 [GCC 4.6.3] on linux2
@@ -82,7 +83,11 @@ Swap Variable
 >>> print x, y
 21 12
 >>>
-String
+```
+
+
+#### String Operations
+```
 >>> language = "Python"
 >>> print language
 Python
@@ -118,7 +123,10 @@ b is greater than a
 ...     print "a is negative"
 ...
 a is positive
-First Python Program
+```
+
+#### First Python Program
+```
 #! /usr/bin/env python
 #! -*- coding: utf-8 -*-
 # Write a program to get integer from user and find it is positive or negative or zero.
@@ -135,9 +143,12 @@ number 23 is positive
 azhercan@azhercan-MacBook:~/codes/python/python-training/examples$ python first.py
 Enter a number:23
 number 23 is positive
-Data Structure
-List
+```
+
+#### Python Data Structure
+##### List
 * List is a collection of heterogenous data types like integer, float, string.
+```
 >>> a = [1, 2, 3]
 >>> b = ["Python", 2.73, 3]
 >>> len(a)
@@ -212,7 +223,10 @@ Find all odd numbers from 0 to 9
 5
 7
 9
-inbuilt functions
+```
+
+##### inbuilt functions
+```
 >>> help([])
 >>> min([1, 2, 3])
 1
@@ -222,9 +236,12 @@ inbuilt functions
 6
 >>> pow(2, 3)
 8
-Tuples
+```
+
+#### Tuples
 * Tuple is a sequence type just like list, but it is immutable.
 * A tuple consists of a number of values separated by commas.
+```
 >>> t = (1, 2)
 >>> t
 (1, 2)
@@ -272,8 +289,11 @@ Slicing
 >>> l[::-1]
 [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 >>>
-Sets
+```
+
+#### Sets
 * Sets are unordered collection of unique elements.
+```
 >>> x = set([1, 2, 1])
 >>> x
 set([1, 2])
@@ -314,7 +334,10 @@ List Comprehensions
 >>> [(x, y) for x in range(5) for y in range(5) if (x+y)%2 == 0]
 [(0, 0), (0, 2), (0, 4), (1, 1), (1, 3), (2, 0), (2, 2), (2, 4), (3, 1), (3, 3), (4, 0), (4, 2), (4, 4)]
 >>>
-Dictionaries
+```
+
+#### Dictionaries
+```
 >>> d = {'a': 1, 'b': 2, 'c': 3}
 >>> d['a']
 1
@@ -359,8 +382,11 @@ z 26
 True
 >>> d.has_key('a')
 True
-Function
+```
+
+#### Function
 * Just like a value can be associated with a name, a piece of logic can also be associated with a name by defining a function.
+```
 >>> def square(x):
 ...     return x * x
 ...
@@ -441,8 +467,11 @@ Message: Is Python Driving you nuts?
 >>> print numcalls
 2
 >>>
-Methods
+```
+
+#### Methods
 * Methods are special kind of functions that work on an object.
+```
 >>> lang = "Python"
 >>> type(lang)
 <type 'str'>
@@ -502,7 +531,10 @@ Files
 >>> f.readlines()
 ['1\n', '2\n']
 >>> f.close()
-Exception Handling
+```
+
+#### Exception Handling
+```
 >>> f = open('a.txt')
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
@@ -547,7 +579,10 @@ Exception: error message
 a
 b
 d
-Object Oriented Programming
+```
+
+### Object Oriented Programming
+```
 >>> class BankAccount:
         def __init__(self):
             self.balance = 0
@@ -609,7 +644,9 @@ Sorry, you need to maintain minimum balance
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 AttributeError: A instance has no attribute '__private'
-Sample Python Program
+```
+
+##### Sample Python Program
 ```
 #! /usr/bin/env python
 #! -*- coding: utf-8 -*-
