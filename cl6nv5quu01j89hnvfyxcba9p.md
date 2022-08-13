@@ -3,7 +3,7 @@
 Introduction to Python
 * Interpreted language
 * Multiparadigm
-#### Arithmetic Operations:
+#### Arithmetic Operations
 ```
 azhercan@azhercan-MacBook:~/codes/python/hacknight$ python
 Python 2.7.3 (default, Aug  1 2012, 05:14:39)
