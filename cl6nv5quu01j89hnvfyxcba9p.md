@@ -1,4 +1,4 @@
-## Quick Intro to Python Scripting
+## Quick reference for Python Scripting
 
 Introduction to Python
 * Interpreted language
