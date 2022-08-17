@@ -1,6 +1,6 @@
-## Quick Intro to Bash Scripting
+## Quick reference to Bash Scripting
 
-This article will help you being writing a bash script and make you aware of the scripting structure
+## Introduction
 
 ### Bash Scripting Basics
 
