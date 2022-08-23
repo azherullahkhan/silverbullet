@@ -1,14 +1,10 @@
 ## Setup Kubernetes Kind Cluster
 
-If your goal is to setup a local development kubernetes cluster for free and really fast "kind" is your solution.
-[%https://kind.sigs.k8s.io/docs/user/quick-start/]
+If your goal is to setup a local development kubernetes cluster for free and really fast "[kind](https://kind.sigs.k8s.io/docs/user/quick-start)" is your solution.
 
 I've followed the below steps to have my Kubernetes kind cluster up and running in seconds
 
-
 Step 1: Clone the below repo to fetch the config file to create the kind cluster
-
-
 ```
 git clone git@github.com:azherullahkhan/kindcluster.git
 
