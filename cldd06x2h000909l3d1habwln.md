@@ -2,7 +2,7 @@
 
 This is the recommended workflow for creating your own Docker image for your application using a qcow2 image
 
-## Create Tar ball:
+## Create a Tar ball
 
 You can convert your `qcow2` images to a docker image by creating a `tar ball`.
 
@@ -42,7 +42,7 @@ drwxr-xr-x.   3 root root   33 Jan 11  2022 var
 -rw------- 1 root root 1.5G Jan 25 16:23 /apps/docker/azapp-test-ol7-20230126-qcow2.tar.gz
 ```
 
-## Run Docker Import:
+## Run Docker Import
 
 Once you have your qcow2 tar ball created, ran the docker import command with `"EXPOSE 22"` to ensure you can SSH into the container once the image is created
 
@@ -58,7 +58,7 @@ azapp-oel7-test-image                            0.0.2               5f60b5e9fbd
 azapp-oel6-test-image                            0.0.2               13dad8fe7b85        2 weeks ago         2.3GB
 ```
 
-## Docker Run:
+## Docker Run
 
 The docker image has been created successfully now you can use `docker run` command to get inside the container
 
