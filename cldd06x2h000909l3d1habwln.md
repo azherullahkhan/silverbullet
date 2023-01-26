@@ -1,4 +1,4 @@
-# Converting QCOW2 Image to Docker Image
+# Converting QCOW2  to Docker Image
 
 This is the recommended workflow for creating your own Docker image for your application using a qcow2 image
 
